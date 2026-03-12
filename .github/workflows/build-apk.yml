@@ -6,10 +6,11 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -18,14 +19,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Install Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Grant Execute Permission
-        run: chmod +x gradlew
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Build APK
+        run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
